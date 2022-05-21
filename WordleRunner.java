@@ -52,18 +52,14 @@ public class WordleRunner {
         int ixGuess = 0;
         int guesses = 6;
 
+        actualWord = "begin";
         // restrict number of guesses to 6
         while (ixGuess < 6) {
             String player_guess = sc.nextLine().toLowerCase();
 
             int[] usedLetters = new int[26]; // array to count letters in actualWord
-
             for(char letterSeen : actualWord.toCharArray()) // letter seen, add 1 for every appearance
                     usedLetters[letterSeen - 'a'] += 1;
-
-            for (int i = 0; i< 26; i++) {
-                System.out.print(usedLetters[i] + " ");
-            }
 
             if (poss_guesses.contains(player_guess) || possAns.contains(player_guess)) {
                 // "player_guess" is in the list "poss_guesses"
@@ -75,20 +71,14 @@ public class WordleRunner {
                     if (letter == actualWord.charAt(c)) {
                         // correct place in word
                         usedLetters[letter - 'a'] -= 1; // subtract index that has that letter
-                        for (int i = 0; i < 26; i++) {
-                            System.out.print(usedLetters[i] + " ");
-                            // ROW index = player guess #
-                            // COLUMN index = #th letter in word
-                            guessSpace[ixGuess][c] = MAKE_GREEN + letter + MAKE_RESET;
-                        }
+                        // ROW index = player guess #
+                        // COLUMN index = #th letter in word
+                        guessSpace[ixGuess][c] = MAKE_GREEN + letter + MAKE_RESET;
                     }
                     else if (actualWord.indexOf(letter) != -1 && usedLetters[letter - 'a'] > 0) {
                         // condition: letter in word, but not in right place
                         usedLetters[letter - 'a'] -= 1; // subtract index that has that letter
-                            for (int i = 0; i< 26; i++) {
-                                System.out.print(usedLetters[i] + " ");
-                                guessSpace[ixGuess][c] = MAKE_YELLOW + letter + MAKE_RESET; // makes that index yellow in guessSpace
-                            }
+                        guessSpace[ixGuess][c] = MAKE_YELLOW + letter + MAKE_RESET; // makes that index yellow in guessSpace
                     } else // letter not in word
                     {
                         guessSpace[ixGuess][c] = MAKE_GRAY + letter + MAKE_RESET;
